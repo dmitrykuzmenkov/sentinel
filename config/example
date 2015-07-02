@@ -1,0 +1,4 @@
+pid_file=$WORK_DIR'/example.pid'
+start='while true; do sleep 1; done & echo $! > '$pid_file
+stop='kill `cat '$pid_file'`'
+

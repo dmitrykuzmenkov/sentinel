@@ -1,0 +1,73 @@
+#!/bin/bash
+[[ $EUID -ne 0 ]] && echo 'This script must be run as root' && exit 255
+
+PID_FILE="$0.pid" # Saved in $WORK_DIR
+CHECK_TIMEOUT=2
+CONFIG_DIR='./config'
+WORK_DIR='./proc'
+RELOAD_FILE=$WORK_DIR'/reload' # RELOAD config signal
+STOP_FILE=$WORK_DIR'/stop' # STOP signal
+PIDS_FILE=$WORK_DIR'/pids' # All running tasks pids
+
+# Prepare folders
+test ! -d $WORK_DIR && mkdir $_
+
+# Workaround variables
+declare -A PROCESSES
+
+# Log pid of process
+echo $! > $WORK_DIR/$PID_FILE
+
+load_config() {
+  println 'Loading configs'
+  # Clean staff
+  unset $PROCESSES
+  echo -n > $PIDS_FILE
+
+  # Iterate through all configs
+  for file in $(ls $CONFIG_DIR); do
+    PROCESSES["$file"]=$CONFIG_DIR/$file
+    source $CONFIG_DIR/$file
+    test -f $pid_file && cat $_ >> $PIDS_FILE
+  done
+  println 'Loaded configs: '${#PROCESSES[@]}
+}
+
+# Print stdout info
+println() {
+  echo $(date '+[%Y-%m-%d %H:%M:%S %Z]')" $1"
+}
+
+# Checking system
+spawn_checkers() {
+  declare -A pids
+  for p in ${!PROCESSES[@]}; do
+    (
+      . ${PROCESSES[$p]}
+      running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
+      status=$([[ "$running" == "1" ]] && echo 'up' || echo 'down')
+      if [[ "$running" == "0" ]]; then
+        (echo "$start" | bash &)
+        status='pending'
+      fi
+      echo $status > $WORK_DIR/$p.status
+    ) & pids[$p]=$!
+  done
+  wait
+
+  # Check finish of all pids
+  for p in ${!pids[@]}; do
+    println $p...$(cat $WORK_DIR/$p.status)
+  done
+}
+
+# Start monitor loop
+test -f $RELOAD_FILE && rm -f $_
+load_config
+while true; do
+  # Reload if got new configs and needs
+  test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading configs signal' && load_config
+  test -f $STOP_FILE && rm -f $_ && println 'Exiting due to stop file' && exit 0
+  spawn_checkers
+  sleep $CHECK_TIMEOUT
+done
