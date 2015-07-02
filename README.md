@@ -9,6 +9,19 @@ cd sentinel-dir && ./sentinel-daemon > sentinel.log &
 ```
 Your Sentinel is running and control all proccesses to be run in config dir
 
+## Config files
+You need add special config file to monitor your process. The example file is simple bash:
+```bash
+pid_file=$WORK_DIR'/example.pid'
+start='while true; do sleep 1; done & echo $! > '$pid_file
+stop='kill `cat '$pid_file'`'
+```
+- pid_file: path where is pid file of running process to check stored
+- start: valid bash command to start daemon (no foreground)
+- stop: valid bash command to stop running daemon
+
+Simple create config/example file with content above and start Sentinel to monitor it.
+
 ## Control Sentinel
 To control Sentinel you just need to touch special files
 
@@ -30,3 +43,4 @@ You can get all pids of running processes under Sentinel control. Just go to wor
 ```bash
 cd sentinel-dir && cat proc/pids
 ```
+
