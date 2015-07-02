@@ -1,13 +1,6 @@
 #!/bin/bash
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root' && exit 255
-
-PID_FILE="$0.pid" # Saved in $WORK_DIR
-CHECK_TIMEOUT=2
-CONFIG_DIR='./config'
-WORK_DIR='./proc'
-RELOAD_FILE=$WORK_DIR'/reload' # RELOAD config signal
-STOP_FILE=$WORK_DIR'/stop' # STOP signal
-PIDS_FILE=$WORK_DIR'/pids' # All running tasks pids
+source ./env
 
 # Prepare folders
 test ! -d $WORK_DIR && mkdir $_
@@ -67,7 +60,7 @@ load_config
 while true; do
   # Reload if got new configs and needs
   test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading configs signal' && load_config
-  test -f $STOP_FILE && rm -f $_ && println 'Exiting due to stop file' && exit 0
+  test -f $QUIT_FILE && rm -f $_ && println 'Exiting due to quit file' && exit 0
   spawn_checkers
   sleep $CHECK_TIMEOUT
 done
