@@ -9,7 +9,7 @@ test ! -d $WORK_DIR && mkdir $_
 declare -A PROCESSES
 
 # Log pid of process
-echo $! > $WORK_DIR/$PID_FILE
+echo $$ > $WORK_DIR/$PID_FILE
 
 load_config() {
   println 'Loading configs'
