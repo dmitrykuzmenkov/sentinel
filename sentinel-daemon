@@ -36,11 +36,13 @@ spawn_checkers() {
   declare -A pids
   for p in ${!PROCESSES[@]}; do
     (
+      user='root'
+      group='root'
       . ${PROCESSES[$p]}
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'down')
       if [[ "$running" == "0" ]]; then
-        (echo "$start" | bash &)
+        (echo "$start" | sudo -u $user -g $group bash &)
         status='pending'
       fi
       echo $status > $WORK_DIR/$p.status

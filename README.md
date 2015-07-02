@@ -18,6 +18,8 @@ You need add special config file to monitor your process. The example file is si
 pid_file=$WORK_DIR'/example.pid'
 start='while true; do sleep 1; done & echo $! > '$pid_file
 stop='kill `cat '$pid_file'`'
+user='root'
+group='root'
 ```
 - pid_file: path where is pid file of running process to check stored
 - start: valid bash command to start daemon (no foreground)
