@@ -31,6 +31,10 @@ Just create tasks/example file with content above and start Sentinel to monitor 
 
 ## Gather info about processes
 You can get system status of all running processes. Just run bash command 'status' and see example output with various information for example:
+```bash
+cd sentinel-dir && ./status
+```
+
 ```
 Sentinel daemon: down
 
