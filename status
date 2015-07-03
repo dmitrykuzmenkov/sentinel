@@ -7,44 +7,53 @@ printlb() {
   echo -ne '\e[1;33m'$1'\e[0;0m: '
 }
 
-# Display header
-echo -ne 'Sentinel daemon is '
-test -e $PID_FILE && SPID=$(cat $_) || SPID=0
-if [[ -e /proc/$SPID ]]; then
-  echo -e '\e[1;32mup\e[0;0m with pid '$SPID
-else
-  echo -e '\e[1;31mdown\e[0;0m'
-fi
+# Display summary status
+display_system_status() {
+  # Display header
+  echo -ne 'Sentinel daemon is '
+  test -e $PID_FILE && SPID=$(cat $_) || SPID=0
+  if [[ -e /proc/$SPID ]]; then
+    echo -e '\e[1;32mup\e[0;0m with pid '$SPID
+  else
+    echo -e '\e[1;31mdown\e[0;0m'
+  fi
 
-# Display hostname information
-echo
-printlb 'Host'
-cat /etc/hostname
-
-printlb 'Uptime'
-echo $(( $(get_system_uptime) / 3600 ))' hours '$(( $(get_system_uptime) % 3600 / 60 ))' minutes'
-
-printlb 'Load average'
-echo $(get_system_la)
-
-printlb 'CPUs'
-echo $(get_system_cpu_usage)'%us '$(get_system_cpu_sys)'%sy '$(get_system_cpu_nice)'%ni '$(get_system_cpu_idle)'%id '$(get_system_cpu_wait)'%wa'
-
-printlb 'Memory'
-echo $(( $(get_system_memory_usage) * 100 / $(get_system_total_memory) ))'% of '$(get_system_total_memory)'K (used: '$(get_system_memory_usage)'K, free: '$(get_system_free_memory)'K, cached: '$(get_system_cached_memory)'K)'
-
-printlb 'Swap'
-TOTAL_SWAP=$(get_system_total_swap)
-echo $(( $(get_system_swap_usage) * 100 / $TOTAL_SWAP ))'% of '$TOTAL_SWAP'K (used: '$(get_system_swap_usage)'K, free: '$(get_system_free_swap)'K)'
-
-# Display number of tasks running
-echo
-printlb 'Tasks'
-echo $(ls $TASKS_DIR | wc -l)
-
-# Show info by tasks
-for task in $(ls $TASKS_DIR); do
+  # Display hostname information
   echo
+  printlb 'Host'
+  cat /etc/hostname
+
+  printlb 'Uptime'
+  echo $(( $(get_system_uptime) / 3600 ))' hours '$(( $(get_system_uptime) % 3600 / 60 ))' minutes'
+
+  printlb 'Load average'
+  echo $(get_system_la)
+
+  printlb 'CPUs'
+  echo $(get_system_cpu_usage)'%us '$(get_system_cpu_sys)'%sy '$(get_system_cpu_nice)'%ni '$(get_system_cpu_idle)'%id '$(get_system_cpu_wait)'%wa'
+
+  printlb 'Memory'
+  echo $(( $(get_system_memory_usage) * 100 / $(get_system_total_memory) ))'% of '$(get_system_total_memory)'K (used: '$(get_system_memory_usage)'K, free: '$(get_system_free_memory)'K, cached: '$(get_system_cached_memory)'K)'
+
+  printlb 'Swap'
+  echo $(( $(get_system_swap_usage) * 100 / $TOTAL_SWAP ))'% of '$TOTAL_SWAP'K (used: '$(get_system_swap_usage)'K, free: '$(get_system_free_swap)'K)'
+
+  # Display number of tasks running
+  echo
+  printlb 'Tasks'
+  echo $(ls $TASKS_DIR | wc -l)
+
+  # Show info by tasks
+  for task in $(ls $TASKS_DIR); do
+    echo
+    display_task_status $task
+  done
+}
+
+# Display status of task
+display_task_status() {
+  task=$1
+
   printlb $task
   source $TASKS_DIR/$task
   pid=$(cat $pid_file)
@@ -70,4 +79,14 @@ for task in $(ls $TASKS_DIR); do
   else
     echo -e '\e[1;31mdown\e[0;0m'
   fi
-done
+}
+
+# Setup commonly used vars
+TOTAL_SWAP=$(get_system_total_swap)
+
+# Global status or only for task?
+if [[ -z "$1" ]]; then
+  display_system_status
+else
+  test -e $TASKS_DIR/$1 && display_task_status $1 || echo -e '\e[1;31mNo such task: '$1'\e[0;0m'
+fi

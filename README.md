@@ -30,7 +30,8 @@ group='root'
 Just create tasks/example file with content above and start Sentinel to monitor it. Remember, no .conf extension and other staff here. Just flat process name.
 
 ## Gather info about processes
-You can get system status of all running processes. Just run bash command 'status' and see example output with various information for example:
+You can get system status of all running processes.
+Run status command without parameters to get system wide info
 ```bash
 cd sentinel-dir && ./status
 ```
@@ -53,7 +54,20 @@ example: up with pid 20779
  Memory: 14428K with peak of 14428K
  Swap: 0K as of 0%
  Uptime: 14 hours 39 minutes
+```
 
+Or run status command with task name to check single task.
+```bash
+cd sentinel-dir && ./status example
+```
+
+```
+example: up with pid 20779
+ State: S (threads: 1, ppid: 2526, uid: 0, gid: 0)
+ CPU: 0.0%
+ Memory: 14436K with peak of 14436K
+ Swap: 0K as of 0%
+ Uptime: 14 hours 49 minutes
 ```
 
 ## Control Sentinel
