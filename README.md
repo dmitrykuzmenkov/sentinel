@@ -24,6 +24,8 @@ group='root'
 - pid_file: path where is pid file of running process to check stored
 - start: valid bash command to start daemon (no foreground)
 - stop: valid bash command to stop running daemon
+- user: optional param to run as that user
+- group: optional param to run task under special group
 
 Just create tasks/example file with content above and start Sentinel to monitor it. Remember, no .conf extension and other staff here. Just flat process name.
 
