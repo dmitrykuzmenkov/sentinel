@@ -48,7 +48,7 @@ for task in $(ls $TASKS_DIR); do
     echo -e '\e[1;32mup\e[0;0m with pid '$pid
 
     printlb '  State'
-    echo $(get_state $pid)
+    echo $(get_state $pid)' (threads: '$(get_threads_count $pid)')'
 
     printlb '  Parent'
     echo $(get_ppid $pid)
