@@ -27,11 +27,11 @@ printlb 'CPUs'
 echo $(get_system_cpu_usage)'%us '$(get_system_cpu_sys)'%sy '$(get_system_cpu_nice)'%ni '$(get_system_cpu_idle)'%id '$(get_system_cpu_wait)'%wa'
 
 printlb 'Memory'
-echo $(get_system_memory_usage)'K of '$(get_system_total_memory)'K (free: '$(get_system_free_memory)'K, cached: '$(get_system_cached_memory)'K)'
+echo $(( $(get_system_memory_usage) * 100 / $(get_system_total_memory) ))'% of '$(get_system_total_memory)'K (used: '$(get_system_memory_usage)'K, free: '$(get_system_free_memory)'K, cached: '$(get_system_cached_memory)'K)'
 
 printlb 'Swap'
 TOTAL_SWAP=$(get_system_total_swap)
-echo $(get_system_swap_usage)'K of '$TOTAL_SWAP'K (free: '$(get_system_free_swap)'K)'
+echo $(( $(get_system_swap_usage) * 100 / $TOTAL_SWAP ))'% of '$TOTAL_SWAP'K (used: '$(get_system_swap_usage)'K, free: '$(get_system_free_swap)'K)'
 
 printlb 'Tasks'
 echo $(ls $TASKS_DIR | wc -l)
