@@ -12,18 +12,18 @@ declare -A PROCESSES
 echo $$ > $WORK_DIR/$PID_FILE
 
 load_config() {
-  println 'Loading configs'
+  println 'Loading task configs'
   # Clean staff
   unset $PROCESSES
   echo -n > $PIDS_FILE
 
   # Iterate through all configs
-  for file in $(ls $CONFIG_DIR); do
-    PROCESSES["$file"]=$CONFIG_DIR/$file
-    source $CONFIG_DIR/$file
+  for file in $(ls $TASKS_DIR); do
+    PROCESSES["$file"]=$TASKS_DIR/$file
+    source $TASKS_DIR/$file
     test -f $pid_file && cat $_ >> $PIDS_FILE
   done
-  println 'Loaded configs: '${#PROCESSES[@]}
+  println 'Loaded task configs: '${#PROCESSES[@]}
 }
 
 # Print stdout info
@@ -61,7 +61,7 @@ test -f $RELOAD_FILE && rm -f $_
 load_config
 while true; do
   # Reload if got new configs and needs
-  test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading configs signal' && load_config
+  test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading task configs signal' && load_config
   test -f $QUIT_FILE && rm -f $_ && println 'Exiting due to quit file' && exit 0
   spawn_checkers
   sleep $CHECK_TIMEOUT
