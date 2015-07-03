@@ -27,7 +27,7 @@ printlb 'CPUs'
 echo $(get_system_cpu_usage)'%us '$(get_system_cpu_sys)'%sy '$(get_system_cpu_nice)'%ni '$(get_system_cpu_idle)'%id '$(get_system_cpu_wait)'%wa'
 
 printlb 'Memory'
-echo $(get_system_memory_usage)'K of '$(get_system_total_memory)'K (free: '$(get_system_free_memory)'K)'
+echo $(get_system_memory_usage)'K of '$(get_system_total_memory)'K (free: '$(get_system_free_memory)'K, cached: '$(get_system_cached_memory)'K)'
 
 printlb 'Swap'
 TOTAL_SWAP=$(get_system_total_swap)

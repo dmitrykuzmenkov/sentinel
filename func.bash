@@ -30,7 +30,7 @@ get_state() {
 }
 # params: pid, key-param
 _get_status_param() {
-  cat /proc/$1/status | grep $2':' | awk '{print $2}'
+  cat /proc/$1/status | grep ^$2':' | awk '{print $2}'
 }
 
 # System wide functions
@@ -80,7 +80,7 @@ get_system_swap_usage() {
   echo $(($(get_system_total_swap $1) - $(get_system_free_swap $1)))
 }
 _get_system_memory_param() {
-  cat /proc/meminfo | grep $1':' | awk '{print $2}'
+  cat /proc/meminfo | grep ^$1':' | awk '{print $2}'
 }
 
 # Common system metrics
