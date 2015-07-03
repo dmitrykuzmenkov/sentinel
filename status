@@ -8,7 +8,7 @@ printlb() {
 }
 printlb 'Sentinel daemon'
 
-test -e $WORK_DIR/$PID_FILE && SPID=$(cat $_) || SPID=0
+test -e $PID_FILE && SPID=$(cat $_) || SPID=0
 
 if [[ -e /proc/$SPID ]]; then
   echo -e '\e[1;32mup\e[0;0m with pid '$SPID
