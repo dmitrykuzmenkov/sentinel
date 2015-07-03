@@ -1,6 +1,6 @@
 #!/bin/bash
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root' && exit 255
-source ./env
+source ./env.bash
 
 # Prepare folders
 test ! -d $WORK_DIR && mkdir $_

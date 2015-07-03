@@ -10,7 +10,7 @@ cd sentinel-dir && ./sentinel > sentinel.log &
 Your Sentinel is running and control all proccesses to be run in config dir
 
 ## Configure daemon environment
-You can configure settings of Sentinel daemon just editing file "env" in project dir. Its just a simple bash script with defined variables
+You can configure settings of Sentinel daemon just editing file "env.bash" in project dir. Its just a simple bash script with defined variables
 
 ## Config files
 You need add special config file to monitor your process. The example file is simple bash:
