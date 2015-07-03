@@ -17,6 +17,9 @@ else
 fi
 
 echo
+printlb 'Host'
+cat /etc/hostname
+
 printlb 'Uptime'
 echo $(( $(get_system_uptime) / 3600 ))' hours '$(( $(get_system_uptime) % 3600 / 60 ))' minutes'
 
