@@ -32,20 +32,21 @@ You can get system status of all running processes. Just run bash command 'statu
 ```
 Sentinel daemon: down
 
-Uptime: 23 hours 29 minutes
-Load average: 0.39 0.54 0.53
-CPUs: 13.9%us 4.4%sy 0.1%ni 81.4%id 0.1%wa
-Memory: 7413972K of 8080928K (free: 666856K)
-Swap: 26932K of 6139644K (free: 6112712K)
+Host: devcraft
+Uptime: 24 hours 17 minutes
+Load average: 0.29 0.39 0.47
+CPUs: 13.3%us 4.2%sy 0.1%ni 82.2%id 0.1%wa
+Memory: 74% of 8080928K (used: 6024532K, free: 2056572K, cached: 986180K)
+Swap: 0% of 6139644K (used: 26888K, free: 6112756K)
 Tasks: 1
 
 example: up with pid 20779
- State: S
+ State: S (threads: 1)
  Parent: 2526
  CPU: 0.0%
- Memory: 14396K with peak of 14396K
+ Memory: 14424K with peak of 14424K
  Swap: 0K as of 0%
- Uptime: 13 hours 35 minutes
+ Uptime: 14 hours 23 minutes
 ```
 
 ## Control Sentinel
