@@ -5,7 +5,7 @@ Simple linux tool for monitoring processes written in bash
 First prepare configs in "config" folder. You can find example config there.
 Start sentinel daemon using command
 ```bash
-cd sentinel-dir && ./sentinel-daemon > sentinel.log &
+cd sentinel-dir && ./sentinel > sentinel.log &
 ```
 Your Sentinel is running and control all proccesses to be run in config dir
 
@@ -38,7 +38,7 @@ cd sentinel-dir && touch proc/reload
 Done!
 
 ### Quit sentinel
-Wanna to stop sentinel-daemon? Its not so hard:
+Wanna to stop sentinel? Its not so hard:
 ```bash
 cd sentinel-dir && touch proc/stop
 ```
