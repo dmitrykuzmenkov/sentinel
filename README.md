@@ -36,23 +36,24 @@ cd sentinel-dir && ./status
 ```
 
 ```
-Sentinel daemon: down
+Sentinel daemon is up with pid 3194
 
 Host: devcraft
-Uptime: 24 hours 17 minutes
-Load average: 0.29 0.39 0.47
-CPUs: 13.3%us 4.2%sy 0.1%ni 82.2%id 0.1%wa
-Memory: 74% of 8080928K (used: 6024532K, free: 2056572K, cached: 986180K)
+Uptime: 24 hours 33 minutes
+Load average: 0.52 0.51 0.45
+CPUs: 13.0%us 4.1%sy 0.1%ni 82.5%id 0.1%wa
+Memory: 75% of 8080928K (used: 6110376K, free: 1970132K, cached: 993388K)
 Swap: 0% of 6139644K (used: 26888K, free: 6112756K)
+
 Tasks: 1
 
 example: up with pid 20779
- State: S (threads: 1)
- Parent: 2526
+ State: S (threads: 1, ppid: 2526, uid: 0, gid: 0)
  CPU: 0.0%
- Memory: 14424K with peak of 14424K
+ Memory: 14428K with peak of 14428K
  Swap: 0K as of 0%
- Uptime: 14 hours 23 minutes
+ Uptime: 14 hours 39 minutes
+
 ```
 
 ## Control Sentinel
