@@ -35,7 +35,7 @@ load_config() {
 
 # Print stdout info
 println() {
-  echo $(date '+[%Y-%m-%d %H:%M:%S %Z]')" $1"
+  echo $(date -u '+[%Y-%m-%d %H:%M:%S %Z]')" $1"
 }
 
 # Checking system
@@ -45,7 +45,7 @@ spawn_checkers() {
     (
       user='root'
       group='root'
-      . ${PROCESSES[$p]}
+      source ${PROCESSES[$p]}
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'down')
       if [[ "$running" == "0" ]]; then
