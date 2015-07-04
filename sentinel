@@ -4,6 +4,7 @@ source ./env.bash
 
 # Prepare folders
 test ! -d $WORK_DIR && mkdir $_
+test ! -d $TASKS_DIR && mkdir $_
 
 # Workaround variables
 declare -A PROCESSES

@@ -56,28 +56,33 @@ display_task_status() {
 
   printlb $task
   source $TASKS_DIR/$task
-  pid=$(cat $pid_file)
-  if [[ -e /proc/$pid ]]; then
-    echo -e '\e[1;32mup\e[0;0m with pid '$pid
 
-    printlb '  State'
-    echo $(get_state $pid)' (threads: '$(get_threads_count $pid)', ppid: '$(get_ppid $pid)', uid: '$(get_uid $pid)', gid: '$(get_gid $pid)')'
-
-    printlb '  CPU'
-    echo $(get_cpu_usage $pid)'%'
-
-    printlb '  Memory'
-    echo $(get_memory_usage $pid)'K with peak of '$(get_memory_peak_usage $pid)'K'
-
-    printlb '  Swap'
-    echo $(get_swap_usage $pid)'K as of '$(( $(get_swap_usage $pid) / $TOTAL_SWAP))'%'
-
-    printlb '  Uptime'
-    uptime_ts=$(( $(date +%s) - $(stat --printf='%Y' $pid_file) ))
-    echo $(( $uptime_ts / 3600 ))' hours '$(( $uptime_ts % 3600 / 60 ))' minutes'
-
+  pid=$(test -r $pid_file && cat $_ || echo 0)
+  if [[ "$pid" == "0" ]]; then
+    echo -e '\e[1;31mno read permissions on pid file: '$pid_file'\e[0;0m'
   else
-    echo -e '\e[1;31mdown\e[0;0m'
+    if [[ -e /proc/$pid ]]; then
+      echo -e '\e[1;32mup\e[0;0m with pid '$pid
+
+      printlb '  State'
+      echo $(get_state $pid)' (threads: '$(get_threads_count $pid)', ppid: '$(get_ppid $pid)', uid: '$(get_uid $pid)', gid: '$(get_gid $pid)')'
+
+      printlb '  CPU'
+      echo $(get_cpu_usage $pid)'%'
+
+      printlb '  Memory'
+      echo $(get_memory_usage $pid)'K with peak of '$(get_memory_peak_usage $pid)'K'
+
+      printlb '  Swap'
+      echo $(get_swap_usage $pid)'K as of '$(( $(get_swap_usage $pid) / $TOTAL_SWAP))'%'
+
+      printlb '  Uptime'
+      uptime_ts=$(( $(date +%s) - $(stat --printf='%Y' $pid_file) ))
+      echo $(( $uptime_ts / 3600 ))' hours '$(( $uptime_ts % 3600 / 60 ))' minutes'
+
+    else
+      echo -e '\e[1;31mdown\e[0;0m'
+    fi
   fi
 }
 
