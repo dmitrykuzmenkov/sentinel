@@ -45,16 +45,24 @@ spawn_checkers() {
   for p in ${!PROCESSES[@]}; do
     (
       flock -n 9 || exit 1 # already in progress
-      user='root'
-      group='root'
+
+      # Set defaults variables for task
+      user=$(id -un)
+      group=$(id -gn)
+      timeout=0
+
+      # Load task config
       source ${PROCESSES[$p]}
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
-      status=$([[ "$running" == "1" ]] && echo 'up' || echo 'down')
-      if [[ "$running" == "0" ]]; then
-        (echo "$start" | sudo -u $user -g $group bash &)
-        status='pending'
-      fi
+      status=$([[ "$running" == "1" ]] && echo 'up' || echo 'pending')
+
+      # Save status for current task
       echo $status > $WORK_DIR/$p.status
+
+      # Start process in subshell
+      if [[ "$running" == "0" ]]; then
+        ((( $timeout > 0 )) && sleep $timeout; echo "$start" | sudo -u $user -g $group bash &)
+      fi
     ) 9< ${PROCESSES[$p]} & pids[$p]=$!
   done
 
@@ -72,5 +80,6 @@ while true; do
   test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading task configs signal' && load_config
   test -f $QUIT_FILE && rm -f $_ && println 'Exiting due to quit file' && exit 0
   spawn_checkers
+  println '...waiting '$CHECK_TIMEOUT' sec'
   sleep $CHECK_TIMEOUT
 done
