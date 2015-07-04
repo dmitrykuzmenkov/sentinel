@@ -29,6 +29,7 @@ load_config() {
     PROCESSES["$file"]=$TASKS_DIR/$file
     source $TASKS_DIR/$file
     test -f $pid_file && cat $_ >> $PIDS_FILE
+    test ! -f $WORK_DIR/$file.status && echo 'loading' > $_
   done
   println 'Loaded task configs: '${#PROCESSES[@]}
 }
@@ -43,6 +44,7 @@ spawn_checkers() {
   declare -A pids
   for p in ${!PROCESSES[@]}; do
     (
+      flock -n 9 || exit 1 # already in progress
       user='root'
       group='root'
       source ${PROCESSES[$p]}
@@ -53,11 +55,10 @@ spawn_checkers() {
         status='pending'
       fi
       echo $status > $WORK_DIR/$p.status
-    ) & pids[$p]=$!
+    ) 9< ${PROCESSES[$p]} & pids[$p]=$!
   done
-  wait
 
-  # Check finish of all pids
+  #Check finish of all pids
   for p in ${!pids[@]}; do
     println $p...$(cat $WORK_DIR/$p.status)
   done
