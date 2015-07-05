@@ -50,11 +50,18 @@ spawn_checkers() {
       user=$(id -un)
       group=$(id -gn)
       timeout=0
+      check='exit 0'
 
       # Load task config
       source ${PROCESSES[$p]}
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'pending')
+
+      # Do checks on running process
+      if [[ "$running" == "1" ]]; then
+        echo "$check" | bash # Evaluate custom check using bash
+        [[ "$?" != "0" ]] && status='stopping' && (echo "$stop" | sudo -u $user -g $group bash &)
+      fi
 
       # Save status for current task
       echo $status > $WORK_DIR/$p.status
@@ -62,7 +69,7 @@ spawn_checkers() {
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
         ((( $timeout > 0 )) && sleep $timeout; echo "$start" | sudo -u $user -g $group bash &)
-      fi
+        fi
     ) 9< ${PROCESSES[$p]} & pids[$p]=$!
   done
 

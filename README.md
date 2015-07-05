@@ -27,6 +27,7 @@ group='root'
 - user: optional param to run as that user
 - group: optional param to run task under special group
 - timeout: timeout in seconds before process will be started
+- check: this is custom check on bash when should to stop running task, must return exit code 0 on success
 
 Just create tasks/example file with content above and start Sentinel to monitor it. Remember, no .conf extension and other staff here. Just flat process name.
 
