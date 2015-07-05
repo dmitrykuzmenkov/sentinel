@@ -28,7 +28,7 @@ load_config() {
   for file in $(ls $TASKS_DIR); do
     PROCESSES["$file"]=$TASKS_DIR/$file
     source $TASKS_DIR/$file
-    test -f $pid_file && cat $_ >> $PIDS_FILE
+    test -f $pid_file && echo $(cat $_) >> $PIDS_FILE
     test ! -f $WORK_DIR/$file.status && echo 'loading' > $_
   done
   println 'Loaded task configs: '${#PROCESSES[@]}
