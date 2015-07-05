@@ -27,9 +27,22 @@ group='root'
 - user: optional param to run as that user
 - group: optional param to run task under special group
 - timeout: timeout in seconds before process will be started
+- memory: limit memory by this amount, 0 for unlmit or 1024M to limit up to 1024 MB memory use
 - check: this is custom check on bash when should to stop running task, must return exit code 0 on success
 
 Just create tasks/example file with content above and start Sentinel to monitor it. Remember, no .conf extension and other staff here. Just flat process name.
+
+## Task statuses
+There are several statuses for task which writes to Sentinel log file. In log file it looks like:
+```
+[2015-07-05 01:21:34 UTC] mysql...up
+[2015-07-05 01:21:34 UTC] memcached...pending
+```
+
+- pending: process is down, Sentinel is trying to start it
+- up: process works fine
+- memory: get memory limit for process, stopping it to start again
+- stopping: custom checks on bash failed for process, stopping it to start again
 
 ## Gather info about processes
 You can get system status of all running processes.
@@ -93,4 +106,3 @@ You can get all pids of running processes under Sentinel control. Just go to wor
 ```bash
 cd sentinel-dir && cat proc/pids
 ```
-

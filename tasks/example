@@ -4,4 +4,5 @@ stop='kill `cat '$pid_file'`'
 user='root'
 group='root'
 timeout=10
-check='exit 1'
+memory=0
+check='exit 0'

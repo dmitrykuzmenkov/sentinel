@@ -1,6 +1,7 @@
 #!/bin/bash
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root' && exit 255
 source ./env.bash
+source ./func.bash
 
 # Check if such process already is running
 if [[ -e $PID_FILE && -e /proc/$(cat $PID_FILE) ]]; then
@@ -51,6 +52,7 @@ spawn_checkers() {
       group=$(id -gn)
       timeout=0
       check='exit 0'
+      memory=0
 
       # Load task config
       source ${PROCESSES[$p]}
@@ -59,12 +61,23 @@ spawn_checkers() {
 
       # Do checks on running process
       if [[ "$running" == "1" ]]; then
-        echo "$check" | bash # Evaluate custom check using bash
-        [[ "$?" != "0" ]] && status='stopping' && (echo "$stop" | sudo -u $user -g $group bash &)
+        # Check memory use
+        if (( $(to_bytes "$memory") > 0 && $(to_bytes $(get_memory_usage $(cat $pid_file))) > $(to_bytes "$memory") )); then
+          status='memory'
+        fi
+
+        # Evaluate custom check using bash
+        echo "$check" | bash
+        [[ "$?" != "0" ]] && status='stopping'
       fi
 
       # Save status for current task
       echo $status > $WORK_DIR/$p.status
+
+      # Should stop on checks?
+      if [[ "$status" == "stopping" || "$status" == "memory" ]]; then
+        (echo "$stop" | sudo -u $user -g $group bash &)
+      fi
 
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
@@ -75,7 +88,7 @@ spawn_checkers() {
 
   #Check finish of all pids
   for p in ${!pids[@]}; do
-    println $p...$(cat $WORK_DIR/$p.status)
+    println "$p...$(cat $WORK_DIR/$p.status)"
   done
 }
 
