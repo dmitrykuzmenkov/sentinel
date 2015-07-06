@@ -71,7 +71,7 @@ display_task_status() {
       echo $(get_cpu_usage $pid)'%'
 
       printlb '  Memory'
-      echo $(get_memory_usage $pid)'K with peak of '$(get_memory_peak_usage $pid)'K'
+      echo $(get_memory_usage $pid)'K as of '$(( $(get_memory_usage $pid) * 100 / $(get_system_total_memory) ))'% with peak of '$(get_memory_peak_usage $pid)'K'
 
       printlb '  Swap'
       echo $(get_swap_usage $pid)'K as of '$(( $(get_swap_usage $pid) / $TOTAL_SWAP))'%'
