@@ -5,7 +5,7 @@ Simple linux tool for monitoring processes written in bash
 First prepare tasks configs in "tasks" folder. You can find example config of task there.
 Start sentinel daemon using command
 ```bash
-cd sentinel-dir && ./sentinel > sentinel.log &
+cd sentinel-dir && ./sentinel --daemonize --log-file=/var/log/sentinel.log
 ```
 Your Sentinel is running and control all proccesses to be run in tasks dir
 

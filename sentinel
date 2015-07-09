@@ -1,6 +1,7 @@
 #!/bin/bash
 source ./src/core.bash
 load_component "args" "helper" "sentinel"
+parse_args "$@"
 
 # Show help?
 test -n "$HELP" && source ./src/help.bash && exit 1
@@ -9,7 +10,17 @@ test -n "$HELP" && source ./src/help.bash && exit 1
 
 # Check if such process already is running
 if [[ -e $PID_FILE && -e /proc/$(cat $PID_FILE) ]]; then
-  echo 'Sentinel is already working with pid '$(cat $PID_FILE)
+  echo 'Sentinel is already running with pid '$(cat $PID_FILE)
+  exit 0
+fi
+
+# Daemonize?
+if [[ -n "$DAEMONIZE" ]]; then
+  ( $0 > $LOG_FILE & ) & pid=$!
+  cat <<EOF
+Sentinel started in daemon mode with pid: $pid
+Log file: $LOG_FILE
+EOF
   exit 1
 fi
 
