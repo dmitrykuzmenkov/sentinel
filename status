@@ -1,6 +1,6 @@
 #!/bin/bash
-source ./env.bash
-source ./func.bash
+source ./src/env.bash
+source ./src/func.bash
 
 # Print label
 printlb() {

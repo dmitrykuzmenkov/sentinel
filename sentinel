@@ -1,8 +1,10 @@
 #!/bin/bash
-[[ $EUID -ne 0 ]] && echo 'This script must be run as root' && exit 255
-source ./env.bash
-source ./help.bash
-source ./func.bash
+source ./src/env.bash
+source ./src/args.bash
+source ./src/help.bash
+source ./src/func.bash
+
+[[ $EUID -ne 0 ]] && echo 'This script must be run as root. For help: '$0' --help' && exit 255
 
 # Check if such process already is running
 if [[ -e $PID_FILE && -e /proc/$(cat $PID_FILE) ]]; then
