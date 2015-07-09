@@ -15,11 +15,16 @@ You can configure sentinel on run command using special parameters. Parameters u
 cd sentinel-dir && ./sentinel --status-file=/dev/shm/status.snapshot > sentinel.log 7
 ```
 
-- *--status-file*: absolute path to file where Sentinel will save status command snapshots on each check of running tasks
 - *--check-timeout*: timeout in seconds between checks, default is 3
 - *--tasks-dir*: folder for tasks config files, default is ./tasks
 - *--work-dir*: work dir for Sentinel where it stores log, status, temp files, default is ./proc
 - *--pid-file*: Sentinel process pid file, default is $WORK_DIR/sentinel.pid
+- *--status-file*: absolute path to file where Sentinel will save status command snapshots on each check of running tasks
+
+For more help and list of all commands use --help option:
+```bash
+cd sentinel-dir && ./sentinel --help
+```
 
 ## Configure daemon environment
 You can configure settings of Sentinel daemon just editing file "env.bash" in project dir. Its just a simple bash script with defined variables

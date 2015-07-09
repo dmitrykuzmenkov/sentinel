@@ -23,6 +23,9 @@ for p in "$@"; do
     --pid-file=*)
       PID_FILE="${p#*=}"
       ;;
+    --help)
+      HELP=1
+      ;;
     *) # unknown option
       ;;
   esac
