@@ -1,8 +1,10 @@
 #!/bin/bash
 source ./src/env.bash
 source ./src/args.bash
-source ./src/help.bash
 source ./src/func.bash
+
+# Show help?
+test -n "$HELP" && source ./src/help.bash && exit 1
 
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root. For help: '$0' --help' && exit 255
 

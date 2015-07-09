@@ -1,6 +1,5 @@
 #!/bin/bash
-# Show help?
-test -n "$HELP" && cat <<"EOF"
+cat <<"EOF"
 Sentinel is small tool on bash for monitor proccesses to be run.
 Copyright (c) 2015 by Dmitry Kuzmenkov
 
@@ -15,4 +14,3 @@ Usage: ./sentinel [options]
 
   --help                Display this help
 EOF
-test -n "$HELP" && exit 1
