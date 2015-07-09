@@ -76,12 +76,12 @@ spawn_checkers() {
 
       # Should stop on checks?
       if [[ "$status" == "stopping" || "$status" == "memory" ]]; then
-        (echo "$stop" | sudo -u $user -g $group bash &)
+        (echo "$stop" | sudo -u $user -g $group bash 2>&1 >> $WORK_DIR/$p.log &)
       fi
 
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
-        ((( $timeout > 0 )) && sleep $timeout; echo "$start" | sudo -u $user -g $group bash &)
+        ((( $timeout > 0 )) && sleep $timeout; echo "$start" | sudo -u $user -g $group bash 2>&1 >> $WORK_DIR/$p.log &)
         fi
     ) 9< ${PROCESSES[$p]} & pids[$p]=$!
   done
