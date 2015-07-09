@@ -1,5 +1,4 @@
 #!/bin/bash
-# Set default values
 CHECK_TIMEOUT=3
 TASKS_DIR='./tasks'
 WORK_DIR='./proc'
