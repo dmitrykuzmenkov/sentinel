@@ -9,6 +9,14 @@ cd sentinel-dir && ./sentinel > sentinel.log &
 ```
 Your Sentinel is running and control all proccesses to be run in tasks dir
 
+## Run configuration
+You can configure sentinel on run command using special bash parameters. For example to make status snapshot to file on each check just run:
+```bash
+cd sentinel-dir && STATUS_FILE=/dev/shm/status.snapshot ./sentinel > sentinel.log 7
+```
+
+- STATUS_FILE: absolute path to file where Sentinel will save status command snapshots on each check of running tasks
+
 ## Configure daemon environment
 You can configure settings of Sentinel daemon just editing file "env.bash" in project dir. Its just a simple bash script with defined variables
 
