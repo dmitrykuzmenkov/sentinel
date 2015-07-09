@@ -15,5 +15,11 @@ Usage: ./sentinel [options]
   --daemonize        -d    Daemonize Sentinel instead of foregroud. Default: not set
   --log-file               Log file for daemon mode. Default: $WORK_DIR/sentinel.log
 
+Daemon commands (remember to use same work dir):
+
+  --reload                 Reload updated task configs
+  --stop                   Stop daemonized Sentinel
+  --restart                Restart current instance of Sentinel
+
   --help             -h    Display this help
 EOF

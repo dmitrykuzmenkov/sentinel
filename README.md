@@ -103,19 +103,25 @@ example: up with pid 20779
 ```
 
 ## Control Sentinel
-To control Sentinel you just need to touch special files
+To control Sentinel you just need to call sentinel command with special files
 
 ### Reload configs
 You must send reload signal to Sentinel after you add more tasks to monitor. Its easy:
 ```bash
-cd sentinel-dir && touch proc/reload
+./sentinel --reload
 ```
 Done!
+
+### Restart sentinel
+If u need to restart daemonized sentinel proccess, you should send restart signal:
+```bash
+./sentinel --restart
+```
 
 ### Quit sentinel
 Wanna to stop sentinel? Its not so hard:
 ```bash
-cd sentinel-dir && touch proc/stop
+./sentinel --stop
 ```
 
 ### Pids of active processes

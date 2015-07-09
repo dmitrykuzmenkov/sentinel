@@ -24,6 +24,15 @@ parse_args() {
       --log-file=*)
         LOG_FILE="${p#*=}"
         ;;
+      --stop)
+        ARG_STOP=1
+        ;;
+      --reload)
+        ARG_RELOAD=1
+        ;;
+      --restart)
+        ARG_RESTART=1
+        ;;
       --help|-h)
         HELP=1
         ;;

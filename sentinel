@@ -8,6 +8,11 @@ test -n "$HELP" && source ./src/help.bash && exit 1
 
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root. For help: '$0' --help' && exit 255
 
+# Command singals to control daemonized Sentinel
+test -n "$ARG_RELOAD" && touch $RELOAD_FILE && echo 'Reload signal sent' && exit 0
+test -n "$ARG_STOP" && touch $QUIT_FILE && echo 'Quit signal sent' && exit 0
+test -n "$ARG_RESTART" && touch $RESTART_FILE && echo 'Restart signal sent' && exit 0
+
 # Check if such process already is running
 if [[ -e $PID_FILE && -e /proc/$(cat $PID_FILE) ]]; then
   echo 'Sentinel is already running with pid '$(cat $PID_FILE)
@@ -41,6 +46,7 @@ while true; do
   # Reload if got new configs and needs
   test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading task configs signal' && load_config
   test -f $QUIT_FILE && rm -f $_ && println 'Exiting due to quit file' && exit 0
+  test -f $RESTART_FILE && rm -f $_ && println 'Exiting due to restart file' && {( $0 > $LOG_FILE & ) &} &&  exit 0
   spawn_checkers
   save_status
   println '...waiting '$CHECK_TIMEOUT' sec'
