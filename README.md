@@ -15,11 +15,11 @@ You can configure sentinel on run command using special parameters. Parameters u
 cd sentinel-dir && ./sentinel --status-file=/dev/shm/status.snapshot > sentinel.log 7
 ```
 
-- --status-file: absolute path to file where Sentinel will save status command snapshots on each check of running tasks
-- --check-timeout: timeout in seconds between checks, default is 3
-- --tasks-dir: folder for tasks config files, default is ./tasks
-- --work-dir: work dir for Sentinel where it stores log, status, temp files, default is ./proc
-- --pid-file: Sentinel process pid file, default is $WORK_DIR/sentinel.pid
+- *--status-file*: absolute path to file where Sentinel will save status command snapshots on each check of running tasks
+- *--check-timeout*: timeout in seconds between checks, default is 3
+- *--tasks-dir*: folder for tasks config files, default is ./tasks
+- *--work-dir*: work dir for Sentinel where it stores log, status, temp files, default is ./proc
+- *--pid-file*: Sentinel process pid file, default is $WORK_DIR/sentinel.pid
 
 ## Configure daemon environment
 You can configure settings of Sentinel daemon just editing file "env.bash" in project dir. Its just a simple bash script with defined variables
@@ -33,14 +33,14 @@ stop='kill `cat '$pid_file'`'
 user='root'
 group='root'
 ```
-- pid_file: path where is pid file of running process to check stored
-- start: valid bash command to start daemon (no foreground)
-- stop: valid bash command to stop running daemon
-- user: optional param to run as that user
-- group: optional param to run task under special group
-- timeout: timeout in seconds before process will be started
-- memory: limit memory by this amount, 0 for unlmit or 1024M to limit up to 1024 MB memory use
-- check: this is custom check on bash when should to stop running task, must return exit code 0 on success
+- *pid_file*: path where is pid file of running process to check stored
+- *start*: valid bash command to start daemon (no foreground)
+- *stop*: valid bash command to stop running daemon
+- *user*: optional param to run as that user
+- *group*: optional param to run task under special group
+- *timeout*: timeout in seconds before process will be started
+- *memory*: limit memory by this amount, 0 for unlmit or 1024M to limit up to 1024 MB memory use
+- *check*: this is custom check on bash when should to stop running task, must return exit code 0 on success
 
 Just create tasks/example file with content above and start Sentinel to monitor it. Remember, no .conf extension and other staff here. Just flat process name.
 
