@@ -33,6 +33,12 @@ parse_args() {
       --restart)
         ARG_RESTART=1
         ;;
+      --status)
+        ARG_STATUS_ALL=1
+        ;;
+      --status=*)
+        ARG_STATUS="${p#*=}"
+        ;;
       --help|-h)
         HELP=1
         ;;

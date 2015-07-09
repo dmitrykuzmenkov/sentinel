@@ -63,9 +63,9 @@ There are several statuses for task which writes to Sentinel log file. In log fi
 
 ## Gather info about processes
 You can get system status of all running processes.
-Run status command without parameters to get system wide info
+Use status argument without value to get system wide info
 ```bash
-cd sentinel-dir && ./status
+./sentinel --status
 ```
 
 ```
@@ -88,9 +88,9 @@ example: up with pid 20779
  Uptime: 14 hours 39 minutes
 ```
 
-Or run status command with task name to check single task.
+Or use argument with task name to check single task.
 ```bash
-cd sentinel-dir && ./status example
+./sentinel --status=example
 ```
 
 ```

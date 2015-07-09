@@ -1,6 +1,9 @@
 #!/bin/bash
 load_component "measure"
 
+# Setup commonly used vars
+TOTAL_SWAP=$(get_system_total_swap)
+
 # Print label
 printlb() {
   echo -ne '\e[1;33m'$1'\e[0;0m: '
@@ -52,6 +55,11 @@ display_system_status() {
 # Display status of task
 display_task_status() {
   task=$1
+
+  if [[ ! -e "$TASKS_DIR/$task" ]]; then
+    echo -e '\e[1;31mNo such task: '$1'\e[0;0m'
+    return
+  fi
 
   printlb $task
   source $TASKS_DIR/$task
