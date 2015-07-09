@@ -4,7 +4,8 @@ Simple linux tool for monitoring processes written in bash
 ## Installing
 Clone repository first. Then just build and install with make:
 ```bash
-cd sentinel-dir
+git clone git@github.com:dmitrykuzmenkov/sentinel.git
+cd sentinel
 make build
 make install
 ```
@@ -14,7 +15,7 @@ Sentinel will be installed to /opt/sentinel dir. You can change this dir using M
 ## Usage
 Now everything done. Start daemon using command:
 ```bash
-sentinel
+sentinel --daemonize
 ```
 
 ## Run configuration
