@@ -1,4 +1,6 @@
 #!/bin/bash
+load_component "measure"
+
 # Print label
 printlb() {
   echo -ne '\e[1;33m'$1'\e[0;0m: '

@@ -1,7 +1,6 @@
 #!/bin/bash
-source ./src/env.bash
-source ./src/func.bash
-source ./src/status.bash
+source ./src/core.bash
+load_component "status" "measure"
 
 # Setup commonly used vars
 TOTAL_SWAP=$(get_system_total_swap)

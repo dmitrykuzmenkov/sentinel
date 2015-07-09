@@ -1,8 +1,6 @@
 #!/bin/bash
-source ./src/env.bash
-source ./src/args.bash
-source ./src/func.bash
-source ./src/sentinel.bash
+source ./src/core.bash
+load_component "args" "helper" "sentinel"
 
 # Show help?
 test -n "$HELP" && source ./src/help.bash && exit 1

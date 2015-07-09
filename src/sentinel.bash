@@ -1,4 +1,6 @@
 #!/bin/bash
+load_component "measure" "helper"
+
 # CONFIG load
 load_config() {
   println 'Loading task configs'
