@@ -1,18 +1,26 @@
 # Sentinel
 Simple linux tool for monitoring processes written in bash
 
-## Usage
-First prepare tasks configs in "tasks" folder. You can find example config of task there.
-Start sentinel daemon using command
+## Installing
+Clone repository first. Then just build and install with make:
 ```bash
-cd sentinel-dir && ./sentinel --daemonize --log-file=/var/log/sentinel.log
+cd sentinel-dir
+make build
+make install
 ```
-Your Sentinel is running and control all proccesses to be run in tasks dir
+
+Sentinel will be installed to /opt/sentinel dir. You can change this dir using Makefile.
+
+## Usage
+Now everything done. Start daemon using command:
+```bash
+sentinel
+```
 
 ## Run configuration
 You can configure sentinel on run command using special parameters. Parameters using two-dash naming style. For example to make status snapshot to file on each check just run:
 ```bash
-cd sentinel-dir && ./sentinel --status-file=/dev/shm/status.snapshot > sentinel.log 7
+sentinel --status-file=/dev/shm/status.snapshot > sentinel.log 7
 ```
 
 - *--check-timeout*: timeout in seconds between checks, default is 3
@@ -23,7 +31,7 @@ cd sentinel-dir && ./sentinel --status-file=/dev/shm/status.snapshot > sentinel.
 
 For more help and list of all commands use --help option:
 ```bash
-cd sentinel-dir && ./sentinel --help
+sentinel --help
 ```
 
 ## Configure daemon environment
@@ -65,7 +73,7 @@ There are several statuses for task which writes to Sentinel log file. In log fi
 You can get system status of all running processes.
 Use status argument without value to get system wide info
 ```bash
-./sentinel --status
+sentinel --status
 ```
 
 ```
@@ -90,7 +98,7 @@ example: up with pid 20779
 
 Or use argument with task name to check single task.
 ```bash
-./sentinel --status=example
+sentinel --status=example
 ```
 
 ```
@@ -108,24 +116,24 @@ To control Sentinel you just need to call sentinel command with special files
 ### Reload configs
 You must send reload signal to Sentinel after you add more tasks to monitor. Its easy:
 ```bash
-./sentinel --reload
+sentinel --reload
 ```
 Done!
 
 ### Restart sentinel
 If u need to restart daemonized sentinel proccess, you should send restart signal:
 ```bash
-./sentinel --restart
+sentinel --restart
 ```
 
 ### Quit sentinel
 Wanna to stop sentinel? Its not so hard:
 ```bash
-./sentinel --stop
+sentinel --stop
 ```
 
 ### Pids of active processes
 You can get all pids of running processes under Sentinel control. Just go to work dir and check pids file:
 ```bash
-cd sentinel-dir && cat proc/pids
+sentinel --task-pids
 ```

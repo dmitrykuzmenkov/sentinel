@@ -9,6 +9,7 @@ test -n "$HELP" && source ./src/help.bash && exit 1
 # Status commands
 test -n "$ARG_STATUS" && load_component "status" && display_task_status "$ARG_STATUS" && exit 0
 test -n "$ARG_STATUS_ALL" && load_component "status" && display_system_status && exit 0
+test -n "$ARG_TASK_PIDS" && cat $PIDS_FILE && exit 0
 
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root. For help: '$0' --help' && exit 255
 

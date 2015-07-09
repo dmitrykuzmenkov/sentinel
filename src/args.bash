@@ -33,6 +33,9 @@ parse_args() {
       --restart)
         ARG_RESTART=1
         ;;
+      --task-pids)
+        ARG_TASK_PIDS=1
+        ;;
       --status)
         ARG_STATUS_ALL=1
         ;;
@@ -45,6 +48,5 @@ parse_args() {
       *) # unknown option
         ;;
     esac
-    shift
   done
 }

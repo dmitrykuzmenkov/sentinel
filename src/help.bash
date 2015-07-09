@@ -21,5 +21,13 @@ Daemon commands (remember to use same work dir):
   --stop                   Stop daemonized Sentinel
   --restart                Restart current instance of Sentinel
 
+Gathering info about running processes:
+
+  --status                 Get status of running Sentinel and system
+  --status=#               Get status for # task name
+  --task-pids              Get pids list of running processes under Sentinel
+
+Other:
+
   --help             -h    Display this help
 EOF
