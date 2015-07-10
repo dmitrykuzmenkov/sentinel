@@ -1,5 +1,8 @@
 INSTALL_TO=/opt/sentinel
 BUILD_DIR=build
+
+all: build
+
 build:
 	mkdir $(BUILD_DIR)
 	mkdir $(BUILD_DIR)/tasks

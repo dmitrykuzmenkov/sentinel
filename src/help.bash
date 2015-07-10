@@ -3,7 +3,7 @@ cat <<"EOF"
 Sentinel is small tool on bash for monitor proccesses to be run.
 Copyright (c) 2015 by Dmitry Kuzmenkov
 
-Usage: ./sentinel [options]
+Usage: sentinel [options]
 
   --check-timeout          Timeout in seconds between checks, default: 3
 
