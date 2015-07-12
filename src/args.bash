@@ -42,6 +42,15 @@ parse_args() {
       --status=*)
         ARG_STATUS="${p#*=}"
         ;;
+      --add=*)
+        ARG_ADD="${p#*=}"
+        ;;
+      --edit=*)
+        ARG_EDIT="${p#*=}"
+        ;;
+      --delete=*)
+        ARG_DELETE="${p#*=}"
+        ;;
       --help|-h)
         HELP=1
         ;;

@@ -21,6 +21,12 @@ Daemon commands (remember to use same work dir):
   --stop                   Stop daemonized Sentinel
   --restart                Restart current instance of Sentinel
 
+Manimuplating task configs
+
+  --add=#                  Add new task with name #
+  --edit=#                 Edit task with name #
+  --delete=#               Delete task with name #
+
 Gathering info about running processes:
 
   --status                 Get status of running Sentinel and system

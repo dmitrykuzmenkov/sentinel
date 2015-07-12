@@ -11,6 +11,10 @@ test -n "$ARG_STATUS" && load_component "status" && display_task_status "$ARG_ST
 test -n "$ARG_STATUS_ALL" && load_component "status" && display_system_status && exit 0
 test -n "$ARG_TASK_PIDS" && cat $PIDS_FILE && exit 0
 
+test -n "$ARG_ADD" && $EDITOR $TASKS_DIR/$ARG_ADD && exit 0
+test -n "$ARG_EDIT" && $EDITOR $TASKS_DIR/$ARG_EDIT && exit 0
+test -n "$ARG_DELETE" && test -f $TASKS_DIR/$ARG_DELETE && $(which rm) $_ && exit 0
+
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root. For help: '$0' --help' && exit 255
 
 # Command singals to control daemonized Sentinel

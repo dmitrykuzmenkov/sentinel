@@ -35,11 +35,26 @@ For more help and list of all commands use --help option:
 sentinel --help
 ```
 
-## Configure daemon environment
-You can configure settings of Sentinel daemon just editing file "env.bash" in project dir. Its just a simple bash script with defined variables
+## How to manage tasks?
+You can add, edit or delete tasks using special commands:
+
+```bash
+sentinel --add=task-name
+```
+
+```bash
+sentinel --edit=task-name
+```
+
+```bash
+sentinel --delete=task-name
+```
+
+The task name must have no spaces and be valid unix filename. Task file consists of special bash params that configure running of the task.
 
 ## Tasks configuration
-You need add special config file for task to monitor your process. The example file is simple bash:
+Task file must be in bash format. Its simple flat file with bash vars like this for example:
+
 ```bash
 pid_file=$WORK_DIR'/example.pid'
 start='while true; do sleep 1; done & echo $! > '$pid_file
@@ -47,6 +62,7 @@ stop='kill `cat '$pid_file'`'
 user='root'
 group='root'
 ```
+
 - *pid_file*: path where is pid file of running process to check stored
 - *start*: valid bash command to start daemon (no foreground)
 - *stop*: valid bash command to stop running daemon
