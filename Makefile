@@ -12,7 +12,7 @@ build:
 	cp -r src build
 	cp sentinel $(BUILD_DIR)
 	echo "#!/bin/bash" > $(BUILD_DIR)/bin/sentinel
-	echo "cd "$(INSTALL_TO)" && ./sentinel " $$\@ >> $(BUILD_DIR)/bin/sentinel
+	echo "cd "$(INSTALL_TO)" && ./sentinel $$"'@' >> $(BUILD_DIR)/bin/sentinel
 	chmod +x $(BUILD_DIR)/bin/sentinel
 
 clean:
