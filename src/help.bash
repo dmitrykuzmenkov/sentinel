@@ -26,6 +26,7 @@ Manimuplating task configs
   --add=#                  Add new task with name #
   --edit=#                 Edit task with name #
   --delete=#               Delete task with name #
+  --task-example           Show example template for task config
 
 Gathering info about running processes:
 

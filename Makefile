@@ -10,7 +10,10 @@ build:
 	mkdir $(BUILD_DIR)/bin
 
 	cp -r src build
+	cp task.example $(BUILD_DIR)
 	cp sentinel $(BUILD_DIR)
+	cp LICENSE $(BUILD_DIR)
+	cp README.md $(BUILD_DIR)
 	echo "#!/bin/bash" > $(BUILD_DIR)/bin/sentinel
 	echo "cd "$(INSTALL_TO)" && ./sentinel $$"'@' >> $(BUILD_DIR)/bin/sentinel
 	chmod +x $(BUILD_DIR)/bin/sentinel

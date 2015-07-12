@@ -15,6 +15,8 @@ test -n "$ARG_ADD" && $EDITOR $TASKS_DIR/$ARG_ADD && exit 0
 test -n "$ARG_EDIT" && $EDITOR $TASKS_DIR/$ARG_EDIT && exit 0
 test -n "$ARG_DELETE" && test -f $TASKS_DIR/$ARG_DELETE && $(which rm) $_ && exit 0
 
+test -n "$TASK_EXAMPLE" && cat task.example && exit 0
+
 [[ $EUID -ne 0 ]] && echo 'This script must be run as root. For help: '$0' --help' && exit 255
 
 # Command singals to control daemonized Sentinel

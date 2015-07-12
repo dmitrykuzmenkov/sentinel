@@ -51,6 +51,9 @@ parse_args() {
       --delete=*)
         ARG_DELETE="${p#*=}"
         ;;
+      --task-example)
+        TASK_EXAMPLE=1
+        ;;
       --help|-h)
         HELP=1
         ;;
