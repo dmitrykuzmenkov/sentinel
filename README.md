@@ -128,6 +128,11 @@ example: up with pid 20779
  Uptime: 14 hours 49 minutes
 ```
 
+If you shell supports for colors u can colorize it:
+```bash
+sentinel --status --colorize
+```
+
 ## Control Sentinel
 To control Sentinel you just need to call sentinel command with special files
 

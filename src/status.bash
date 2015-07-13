@@ -6,7 +6,25 @@ TOTAL_SWAP=$(get_system_total_swap)
 
 # Print label
 printlb() {
-  echo -ne '\e[1;33m'$1'\e[0;0m: '
+  echo -n $(color "$1" 'yellow')': '
+}
+
+color() {
+  case "$2" in
+    red)
+      printf -v text '\e[1;31m%s\e[0;0m' "$1"
+      ;;
+    green)
+      printf -v text '\e[1;32m%s\e[0;0m' "$1"
+      ;;
+    yellow)
+      printf -v text '\e[1;33m%s\e[0;0m' "$1"
+      ;;
+    *)
+      text="$1"
+      ;;
+  esac
+  test ! -z "$COLORIZE" && echo -en "$text" || echo -n "$1"
 }
 
 # Display summary status
@@ -15,9 +33,9 @@ display_system_status() {
   echo -ne 'Sentinel daemon is '
   test -e $PID_FILE && SPID=$(cat $_) || SPID=0
   if [[ -e /proc/$SPID ]]; then
-    echo -e '\e[1;32mup\e[0;0m with pid '$SPID
+    echo $(color 'up' 'green')' with pid '$SPID
   else
-    echo -e '\e[1;31mdown\e[0;0m'
+    echo $(color 'down' 'red')
   fi
 
   # Display hostname information
@@ -66,10 +84,10 @@ display_task_status() {
 
   pid=$(test -r $pid_file && cat $_ || echo 0)
   if [[ "$pid" == "0" ]]; then
-    echo -e '\e[1;31mno read permissions on pid file: '$pid_file'\e[0;0m'
+    echo $(color "no read permissions on pid file: $pid_file" 'red')
   else
     if [[ -e /proc/$pid ]]; then
-      echo -e '\e[1;32mup\e[0;0m with pid '$pid
+      echo $(color 'up' 'green')' with pid '$pid
 
       printlb '  State'
       echo $(get_state $pid)' (threads: '$(get_threads_count $pid)', ppid: '$(get_ppid $pid)', uid: '$(get_uid $pid)', gid: '$(get_gid $pid)')'
@@ -88,7 +106,7 @@ display_task_status() {
       echo $(( $uptime_ts / 3600 ))' hours '$(( $uptime_ts % 3600 / 60 ))' minutes'
 
     else
-      echo -e '\e[1;31mdown\e[0;0m'
+      echo $(color 'down' 'red')
     fi
   fi
 }

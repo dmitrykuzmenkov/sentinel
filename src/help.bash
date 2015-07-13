@@ -30,6 +30,7 @@ Manimuplating task configs
 
 Gathering info about running processes:
 
+  --colorize               Colorize output of status
   --status                 Get status of running Sentinel and system
   --status=#               Get status for # task name
   --task-pids              Get pids list of running processes under Sentinel

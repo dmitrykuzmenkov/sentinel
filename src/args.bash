@@ -42,6 +42,9 @@ parse_args() {
       --status=*)
         ARG_STATUS="${p#*=}"
         ;;
+      --colorize)
+        COLORIZE=1
+        ;;
       --add=*)
         ARG_ADD="${p#*=}"
         ;;

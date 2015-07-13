@@ -1,7 +1,10 @@
 INSTALL_TO=/opt/sentinel
 BUILD_DIR=build
 
-all: build
+all: check
+
+check:
+	which nano || which vim || which vi # check any editor
 
 build:
 	mkdir $(BUILD_DIR)
