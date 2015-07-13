@@ -1,5 +1,5 @@
 #!/bin/bash
-load_component "measure"
+load_component "measure" "color"
 
 # Setup commonly used vars
 TOTAL_SWAP=$(get_system_total_swap)
@@ -7,24 +7,6 @@ TOTAL_SWAP=$(get_system_total_swap)
 # Print label
 printlb() {
   echo -n $(color "$1" 'yellow')': '
-}
-
-color() {
-  case "$2" in
-    red)
-      printf -v text '\e[1;31m%s\e[0;0m' "$1"
-      ;;
-    green)
-      printf -v text '\e[1;32m%s\e[0;0m' "$1"
-      ;;
-    yellow)
-      printf -v text '\e[1;33m%s\e[0;0m' "$1"
-      ;;
-    *)
-      text="$1"
-      ;;
-  esac
-  test ! -z "$COLORIZE" && echo -en "$text" || echo -n "$1"
 }
 
 # Display summary status
