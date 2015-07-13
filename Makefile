@@ -5,6 +5,9 @@ all: check
 
 check:
 	which nano || which vim || which vi # check any editor
+	which awk # for parsing purpose
+	which grep
+	which tail && which head # read file tools
 
 build:
 	mkdir $(BUILD_DIR)

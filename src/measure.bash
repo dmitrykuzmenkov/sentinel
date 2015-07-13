@@ -53,7 +53,13 @@ get_system_cpu_wait() {
 }
 _get_system_cpu_info() {
   cache_file=$WORK_DIR/cpu_usage_stat
-  test -f $cache_file && elapsed=$(( $(date +%s) - $(stat --printf='%Y' $_) )) || elapsed=999
+  if [[ -f $cache_file ]]; then
+    elapsed=$(( $(date +%s) - $(stat --printf='%Y' $cache_file) ))
+  else
+    elapsed=999
+    touch $cache_file && chmod 666 $_
+  fi
+
   if (( $elapsed > 3 )); then
     top -bn1 | head -n3 | tail -n1 | awk '{print $2" "$4" "$6" "$8" "$10}' > $cache_file
   fi
