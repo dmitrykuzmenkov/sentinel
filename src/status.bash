@@ -57,12 +57,17 @@ display_task_status() {
   task=$1
 
   if [[ ! -e "$TASKS_DIR/$task" ]]; then
-    echo -e '\e[1;31mNo such task: '$1'\e[0;0m'
+    echo $(color "No such task: $1" 'red')
     return
   fi
 
   printlb $task
   source $TASKS_DIR/$task
+  # Check vars
+  if [[ -z "$pid_file" || -z "$start" || -z "$stop" ]]; then
+    echo $(color "Wrong config. It must define at least these vars: pid_file, start, stop" 'red')
+    return
+  fi
 
   pid=$(test -r $pid_file && cat $_ || echo 0)
   if [[ "$pid" == "0" ]]; then
