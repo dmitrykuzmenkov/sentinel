@@ -9,15 +9,15 @@ Usage: sentinel [options]
 
   --tasks-dir              Folder for tasks config files. Default: ./tasks
   --work-dir               Work dir to store log, status, temp files. Default: ./proc
+
   --status-file            Save status snapshot to file on each check. Default: None
   --pid-file               Sentinel process pid file. Default: $WORK_DIR/sentinel.pid
-
-  --daemonize        -d    Daemonize Sentinel instead of foregroud. Default: not set
   --log-file               Log file for daemon mode. Default: $WORK_DIR/sentinel.log
 
 Daemon commands (remember to use same work dir):
 
   --reload                 Reload updated task configs
+  --start                  Start Sentinel in daemon mode
   --stop                   Stop daemonized Sentinel
   --restart                Restart current instance of Sentinel
 

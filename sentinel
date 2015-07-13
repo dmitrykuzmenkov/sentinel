@@ -30,8 +30,8 @@ if [[ -e $PID_FILE && -e /proc/$(cat $PID_FILE) ]]; then
   exit 0
 fi
 
-# Daemonize?
-if [[ -n "$DAEMONIZE" ]]; then
+# Start the daemon?
+if [[ -n "$ARG_START" ]]; then
   ( $0 > $LOG_FILE & ) & pid=$!
   cat <<EOF
 Sentinel started in daemon mode with pid: $pid

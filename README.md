@@ -14,8 +14,9 @@ Sentinel will be installed to /opt/sentinel dir. You can change this dir using M
 
 ## Usage
 Now everything done. Start daemon using command:
+
 ```bash
-sentinel --daemonize
+sentinel --start
 ```
 
 ## Run configuration

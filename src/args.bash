@@ -18,11 +18,11 @@ parse_args() {
       --pid-file=*)
         PID_FILE="${p#*=}"
         ;;
-      --daemonize|-d)
-        DAEMONIZE=1
-        ;;
       --log-file=*)
         LOG_FILE="${p#*=}"
+        ;;
+      --start)
+        ARG_START=1
         ;;
       --stop)
         ARG_STOP=1
