@@ -22,7 +22,7 @@ sentinel --start
 ## Run configuration
 You can configure sentinel on run command using special parameters. Parameters using two-dash naming style. For example to make status snapshot to file on each check just run:
 ```bash
-sentinel --status-file=/dev/shm/status.snapshot > sentinel.log 7
+sentinel --start --status-file=/dev/shm/status.snapshot --log-file=/var/log/sentinel.log
 ```
 
 - *--check-timeout*: timeout in seconds between checks, default is 3
