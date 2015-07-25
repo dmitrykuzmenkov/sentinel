@@ -154,9 +154,3 @@ Wanna to stop sentinel? Its not so hard:
 ```bash
 sentinel --stop
 ```
-
-### Pids of active processes
-You can get all pids of running processes under Sentinel control. Just go to work dir and check pids file:
-```bash
-sentinel --task-pids
-```
