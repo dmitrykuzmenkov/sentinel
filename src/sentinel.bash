@@ -1,5 +1,5 @@
 #!/bin/bash
-load_component "measure" "helper"
+load_component "measure" "status" "helper"
 
 # CONFIG load
 load_config() {
@@ -78,11 +78,10 @@ save_status() {
     return 1
   fi
 
-  test ! -e $STATUS_FILE && touch $STATUS_FILE || return 1
+  test -f $STATUS_FILE || touch $_
 
   (
     flock -n 9 || exit 1 # already in progress
-
-    ./status 2>&1 > $STATUS_FILE
+    display_system_status 2>&1 > $STATUS_FILE
   ) 9< $STATUS_FILE
 }
