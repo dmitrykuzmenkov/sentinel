@@ -62,6 +62,7 @@ display_task_status() {
   fi
 
   printlb $task
+  unset pid_file
   source $TASKS_DIR/$task
   # Check vars
   if [[ -z "$start" || -z "$stop" ]]; then
