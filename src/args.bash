@@ -4,58 +4,58 @@ parse_args() {
   for p in "$@"; do
     case $p in
       --status-file=*)
-        STATUS_FILE="${p#*=}"
+        export STATUS_FILE="${p#*=}"
         ;;
       --check-timeout=*)
-        CHECK_TIMEOUT="${p#*=}"
+        export CHECK_TIMEOUT="${p#*=}"
         ;;
       --tasks-dir=*)
-        TASKS_DIR="${p#*=}"
+        export TASKS_DIR="${p#*=}"
         ;;
       --work-dir=*)
-        WORK_DIR="${p#*=}"
+        export WORK_DIR="${p#*=}"
         ;;
       --pid-file=*)
-        PID_FILE="${p#*=}"
+        export PID_FILE="${p#*=}"
         ;;
       --log-file=*)
-        LOG_FILE="${p#*=}"
+        export LOG_FILE="${p#*=}"
         ;;
       --start)
-        ARG_START=1
+        export ARG_START=1
         ;;
       --stop)
-        ARG_STOP=1
+        export ARG_STOP=1
         ;;
       --reload)
-        ARG_RELOAD=1
+        export ARG_RELOAD=1
         ;;
       --restart)
-        ARG_RESTART=1
+        export ARG_RESTART=1
         ;;
       --status)
-        ARG_STATUS_ALL=1
+        export ARG_STATUS_ALL=1
         ;;
       --status=*)
-        ARG_STATUS="${p#*=}"
+        export ARG_STATUS="${p#*=}"
         ;;
       --colorize)
-        COLORIZE=1
+        export COLORIZE=1
         ;;
       --add=*)
-        ARG_ADD="${p#*=}"
+        export ARG_ADD="${p#*=}"
         ;;
       --edit=*)
-        ARG_EDIT="${p#*=}"
+        export ARG_EDIT="${p#*=}"
         ;;
       --delete=*)
-        ARG_DELETE="${p#*=}"
+        export ARG_DELETE="${p#*=}"
         ;;
       --task-example)
-        TASK_EXAMPLE=1
+        export TASK_EXAMPLE=1
         ;;
       --help|-h)
-        HELP=1
+        export HELP=1
         ;;
       *) # unknown option
         ;;

@@ -58,11 +58,20 @@ Task file must be in bash format. Its simple flat file with bash vars like this 
 
 ```bash
 pid_file=$WORK_DIR'/example.pid'
-start='while true; do sleep 1; done & echo $! > '$pid_file
+start='while true; do sleep 1; done & echo -n $! > '$pid_file
 stop='kill `cat '$pid_file'`'
 user='root'
 group='root'
 ```
+
+You can omit user, group and pid file and dont write background staff, for example:
+
+```bash
+start='while true; do sleep 1; done'
+stop='kill `cat '$pid_file'`'
+```
+
+In that case pid_file will be $WORK_DIR/example.pid, user and group - root. You can use more options:
 
 - *pid_file*: path where is pid file of running process to check stored
 - *start*: valid bash command to start daemon (no foreground)

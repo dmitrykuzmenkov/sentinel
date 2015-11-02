@@ -64,9 +64,14 @@ display_task_status() {
   printlb $task
   source $TASKS_DIR/$task
   # Check vars
-  if [[ -z "$pid_file" || -z "$start" || -z "$stop" ]]; then
-    echo $(color "Wrong config. It must define at least these vars: pid_file, start, stop" 'red')
+  if [[ -z "$start" || -z "$stop" ]]; then
+    echo $(color "Wrong config. It must define at least these vars: start, stop" 'red')
     return
+  fi
+
+  # Duplicate some code for no pid_file var case :)
+  if [[ -z "$pid_file" ]]; then
+    pid_file="$WORK_DIR/$task.pid"
   fi
 
   pid=$(test -r $pid_file && cat $_ || echo 0)

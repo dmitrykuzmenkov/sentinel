@@ -1,19 +1,21 @@
 #!/bin/bash
 load_component "measure" "status" "helper"
 
+export PROCESSES=''
+
 # CONFIG load
 load_config() {
   println 'Loading task configs'
-  # Clean staff
-  unset $PROCESSES
   echo -n > $PIDS_FILE
-
+  declare -A processes
   # Iterate through all configs
-  for file in $(ls $TASKS_DIR); do
-    PROCESSES["$file"]=$TASKS_DIR/$file
-    test ! -f $WORK_DIR/$file.status && echo 'loading' > $_
+  for file in $TASKS_DIR/*; do
+    task="${file##*/}"
+    processes["$task"]="$TASKS_DIR/$task"
+    test ! -f $WORK_DIR/$task.status && echo 'loading' > $_
   done
-  println 'Loaded task configs: '${#PROCESSES[@]}
+  println 'Loaded task configs: '${#processes[@]}
+  PROCESSES="${processes[@]}"
 }
 
 # Print stdout info
@@ -24,7 +26,8 @@ println() {
 # Checking system
 spawn_checkers() {
   declare -A pids
-  for p in ${!PROCESSES[@]}; do
+  for p_file in $PROCESSES; do
+    p_name="${p_file##*/}"
     (
       flock -n 9 || exit 1 # already in progress
 
@@ -36,14 +39,23 @@ spawn_checkers() {
       memory=0
 
       # Load task config
-      source ${PROCESSES[$p]}
+      source "$p_file"
+
+      # Pid file omited - make it same name as task in work dir
+      if [[ -z "$pid_file" ]]; then
+        pid_file="$WORK_DIR/$p_name.pid"
+        start="$start & echo -n \$! > $pid_file"
+      fi
+
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'pending')
 
       # Do checks on running process
       if [[ "$running" == "1" ]]; then
         # Check memory use
-        if (( $(to_bytes "$memory") > 0 && $(to_bytes $(get_memory_usage $(cat $pid_file))) > $(to_bytes "$memory") )); then
+        if (( $(to_bytes "$memory") > 0 && \
+          $(to_bytes $(get_memory_usage $(cat $pid_file))) > $(to_bytes "$memory") )); then
+
           status='memory'
         fi
 
@@ -53,22 +65,24 @@ spawn_checkers() {
       fi
 
       # Save status for current task
-      echo $status > $WORK_DIR/$p.status
+      echo $status > $WORK_DIR/$p_name.status
 
       # Should stop on checks?
       if [[ "$status" == "stopping" || "$status" == "memory" ]]; then
-        (echo "$stop" | sudo -u $user -g $group bash 2>&1 >> $WORK_DIR/$p.log &)
+        ( echo "$stop" | sudo -u $user -g $group bash 2>&1 >> $WORK_DIR/$p_name.log & )
       fi
 
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
-        ((( $timeout > 0 )) && sleep $timeout; echo "$start" | sudo -u $user -g $group bash 2>&1 >> $WORK_DIR/$p.log &)
+        ( (( $timeout > 0 )) && \
+          sleep $timeout; \
+          echo "$start" | sudo -u $user -g $group bash >> $WORK_DIR/$p_name.log 2>&1 & )
         fi
-    ) 9< ${PROCESSES[$p]} & pids[$p]=$!
+    ) 9< $p_file & pids[$p_name]=$!
   done
 
   #Check finish of all pids
-  for p in ${!pids[@]}; do
+  for p in "${!pids[@]}"; do
     println "$p...$(cat $WORK_DIR/$p.status)"
   done
 }
@@ -82,6 +96,6 @@ save_status() {
 
   (
     flock -n 9 || exit 1 # already in progress
-    display_system_status 2>&1 > $STATUS_FILE
+    display_system_status > $STATUS_FILE 2>&1
   ) 9< $STATUS_FILE
 }
