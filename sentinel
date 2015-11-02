@@ -53,7 +53,7 @@ echo $$ > $PID_FILE
 test -f $RELOAD_FILE && rm -f $_
 
 trap "println 'Reloading task configs signal' && load_config" SIGUSR1
-trap "println 'Exiting due to quit file' && echo '' >  && exit 0" SIGTERM SIGINT SIGKILL
+trap "println 'Exiting due to quit file' && echo 0 > $PID_FILE && exit 0" SIGTERM SIGINT SIGKILL
 trap "println 'Exiting due to restart file' && { ( $0 > $LOG_FILE & ) & } &&  exit 0" SIGHUP
 
 load_config
