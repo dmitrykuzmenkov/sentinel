@@ -52,14 +52,13 @@ echo $$ > $PID_FILE
 # Start monitor loop
 test -f $RELOAD_FILE && rm -f $_
 
-load_config processes
-echo "$processes"
+load_config
 while true; do
   # Reload if got new configs and needs
-  test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading task configs signal' && processes=load_config
+  test -f $RELOAD_FILE &&  rm -f $_ && println 'Reloading task configs signal' && load_config
   test -f $QUIT_FILE && rm -f $_ && println 'Exiting due to quit file' && exit 0
   test -f $RESTART_FILE && rm -f $_ && println 'Exiting due to restart file' && { ( $0 > $LOG_FILE & ) & } &&  exit 0
-  spawn_checkers "$processes"
+  spawn_checkers
   save_status
   println '...waiting '$CHECK_TIMEOUT' sec'
   sleep $CHECK_TIMEOUT
