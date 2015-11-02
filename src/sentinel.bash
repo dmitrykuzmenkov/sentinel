@@ -69,14 +69,14 @@ spawn_checkers() {
 
       # Should stop on checks?
       if [[ "$status" == "stopping" || "$status" == "memory" ]]; then
-        ( echo "$stop" | sudo -u $user -g $group bash 2>&1 >> $WORK_DIR/$p_name.log & )
+        ( echo "$stop" | bash >> $WORK_DIR/$p_name.log 2>&1 | sudo -u $user -g $group tee -a file & )
       fi
 
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
         ( (( $timeout > 0 )) && \
           sleep $timeout; \
-          echo "$start" | sudo -u $user -g $group bash >> $WORK_DIR/$p_name.log 2>&1 & )
+          echo "$start" | bash >> $WORK_DIR/$p_name.log 2>&1 | sudo -u $user -g $group tee -a file & )
         fi
     ) 9< $p_file & pids[$p_name]=$!
   done
