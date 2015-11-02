@@ -31,7 +31,7 @@ fi
 
 # Start the daemon?
 if [[ -n "$ARG_START" ]]; then
-  ( $0 > $LOG_FILE & ) & pid=$!
+  ( ARG_START='' $0 > $LOG_FILE & ) & pid=$!
   cat <<EOF
 Sentinel started in daemon mode with pid: $pid
 Log file: $LOG_FILE
