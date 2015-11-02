@@ -24,6 +24,11 @@ test -n "$ARG_RELOAD" && kill -USR1 $(cat $PID_FILE) && echo 'Reload signal sent
 test -n "$ARG_STOP" && kill -TERM $(cat $PID_FILE) && echo 'Quit signal sent' && exit 0
 test -n "$ARG_RESTART" && kill -HUP $(cat $PID_FILE) && echo 'Restart signal sent' && exit 0
 
+# Check if that pid used by other process
+if [[ -e $PID_FILE && -z "$(pgrep -f $0 | grep -oE '\b'$(cat $PID_FILE)'\b')" ]]; then
+  $(which rm) -f $PID_FILE
+fi
+
 # Check if such process already is running
 if [[ -e $PID_FILE && -e /proc/$(cat $PID_FILE) ]]; then
   echo "Sentinel is already running with pid $(cat $PID_FILE)"
