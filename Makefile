@@ -8,6 +8,7 @@ check:
 	which awk # for parsing purpose
 	which grep
 	which tail && which head # read file tools
+  which sudo # sudo to run task under custom user
 
 build:
 	mkdir $(BUILD_DIR)
@@ -33,4 +34,3 @@ install:
 	cp -r build/* $(INSTALL_TO)
 	ln -fs $(INSTALL_TO)/bin/sentinel /usr/bin/sentinel
 	ldconfig
-
