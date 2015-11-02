@@ -54,8 +54,11 @@ parse_args() {
       --task-example)
         export TASK_EXAMPLE=1
         ;;
+      --version|-v)
+        export ARG_VERSION=1
+        ;;
       --help|-h)
-        export HELP=1
+        export ARG_HELP=1
         ;;
       *) # unknown option
         ;;

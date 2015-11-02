@@ -35,6 +35,6 @@ Gathering info about running processes:
   --status=#               Get status for # task name
 
 Other:
-
+  --version          -v    Display current Sentinel's version
   --help             -h    Display this help
 EOF

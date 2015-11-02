@@ -4,7 +4,8 @@ load_component "args" "helper" "sentinel"
 parse_args "$@"
 
 # Show help?
-test -n "$HELP" && source ./src/help.bash && exit 1
+test -n "$ARG_HELP" && source ./src/help.bash && exit 0
+test -n "$ARG_VERSION" && echo 'Sentinel version: '$VERSION && exit 0
 
 # Status commands
 test -n "$ARG_STATUS" && load_component "status" && display_task_status "$ARG_STATUS" && exit 0
