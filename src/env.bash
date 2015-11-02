@@ -10,4 +10,4 @@ export QUIT_FILE=$WORK_DIR'/quit' # QUIT signal
 export RESTART_FILE=$WORK_FILE'/restart' # RESTAR signal
 export PIDS_FILE=$WORK_DIR'/pids' # All running tasks pids
 
-export EDITOR=$(which nano || which vim || which vi)
+export EDITOR=$(which nano 2> /dev/null || which vim 2> /dev/null || which vi)
