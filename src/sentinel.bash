@@ -85,7 +85,6 @@ EOF
             exec setsid $start & echo \$! > $pid_file
 EOF
         ) &
-        echo $!
       fi
     ) 9> $p_lock & pids[$p_name]=$!
   done
