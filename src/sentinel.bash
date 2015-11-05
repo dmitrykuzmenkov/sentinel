@@ -67,19 +67,25 @@ spawn_checkers() {
       if [[ "$status" == "stopping" || "$status" == "memory" ]]; then
         (
           sudo -u $user -g $group -s -- <<EOF
-            $stop >> $WORK_DIR/$p_name.log 2>&1
+            exec >> $WORK_DIR/$p_name.log
+            exec 2>&1
+            exec setsid $stop
 EOF
         ) &
       fi
 
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
-        ( (( $timeout > 0 )) && \
+        (
+          (( $timeout > 0 )) && \
           sleep $timeout; \
           sudo -u $user -g $group -s -- <<EOF
-            $start >> $WORK_DIR/$p_name.log 2>&1 & echo -n \$! > $pid_file
+            exec >> $WORK_DIR/$p_name.log
+            exec 2>&1
+            exec setsid $start & echo \$! > $pid_file
 EOF
         ) &
+        echo $!
       fi
     ) 9> $p_lock & pids[$p_name]=$!
   done

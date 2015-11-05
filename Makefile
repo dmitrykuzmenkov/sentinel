@@ -10,6 +10,7 @@ check:
 	which tail && which head # read file tools
 	which sudo # sudo to run task under custom user
 	which readlink # to read realpath
+	which setsid # be sure that we have setsid util
 
 build:
 	mkdir $(BUILD_DIR)
