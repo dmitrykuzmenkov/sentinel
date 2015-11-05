@@ -74,7 +74,7 @@ stop='kill `cat '$pid_file'`'
 
 In that case pid_file will be $WORK_DIR/example.pid, user and group - root. You can use more options:
 
-- *start*: valid bash command to start daemon (no foreground)
+- *start*: valid single bash command without any split (;) and multicall (&&, ||) to start daemon (no foreground)
 - *stop*: valid bash command to stop running daemon
 - *user*: optional param to run as that user
 - *group*: optional param to run task under special group
