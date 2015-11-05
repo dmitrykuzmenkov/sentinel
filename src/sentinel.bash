@@ -39,13 +39,8 @@ spawn_checkers() {
       memory=0
 
       # Load task config
+      pid_file="$WORK_DIR/$p_name.pid"
       source "$p_file"
-
-      # Pid file omited - make it same name as task in work dir
-      if [[ -z "$pid_file" ]]; then
-        pid_file="$WORK_DIR/$p_name.pid"
-        start="$start & echo -n \$! > $pid_file"
-      fi
 
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'pending')
@@ -69,15 +64,22 @@ spawn_checkers() {
 
       # Should stop on checks?
       if [[ "$status" == "stopping" || "$status" == "memory" ]]; then
-        ( echo "$stop" | bash >> $WORK_DIR/$p_name.log 2>&1 | sudo -u $user -g $group tee -a file & )
+        (
+          sudo -u $user -g $group -s -- <<EOF
+            $stop >> $WORK_DIR/$p_name.log 2>&1
+EOF
+        ) &
       fi
 
       # Start process in subshell
       if [[ "$running" == "0" ]]; then
         ( (( $timeout > 0 )) && \
           sleep $timeout; \
-          echo "$start" | bash >> $WORK_DIR/$p_name.log 2>&1 | sudo -u $user -g $group tee -a file & )
-        fi
+          sudo -u $user -g $group -s -- <<EOF
+            $start >> $WORK_DIR/$p_name.log 2>&1 & echo -n \$! > $pid_file
+EOF
+        ) &
+      fi
     ) 9< $p_file & pids[$p_name]=$!
   done
 

@@ -57,14 +57,15 @@ The task name must have no spaces and be valid unix filename. Task file consists
 Task file must be in bash format. Its simple flat file with bash vars like this for example:
 
 ```bash
-pid_file=$WORK_DIR'/example.pid'
-start='while true; do sleep 1; done & echo -n $! > '$pid_file
+start='while true; do sleep 1; done'
 stop='kill `cat '$pid_file'`'
 user='root'
 group='root'
 ```
 
-You can omit user, group and pid file and dont write background staff, for example:
+You can use $pid_file variable inside config that contains absolute pid file path for your process.
+
+You can omit user, group, for example:
 
 ```bash
 start='while true; do sleep 1; done'
