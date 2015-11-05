@@ -28,8 +28,9 @@ spawn_checkers() {
   declare -A pids
   for p_file in $PROCESSES; do
     p_name="${p_file##*/}"
+    p_lock="$WORK_DIR/$p_name.lock"
     (
-      flock -n 9 || exit 1 # already in progress
+      flock -x -n 9 || exit 1 # already in progress
 
       # Set defaults variables for task
       user=$(id -un)
@@ -80,7 +81,7 @@ EOF
 EOF
         ) &
       fi
-    ) 9< $p_file & pids[$p_name]=$!
+    ) 9> $p_lock & pids[$p_name]=$!
   done
 
   #Check finish of all pids
@@ -97,7 +98,7 @@ save_status() {
   test -f $STATUS_FILE || touch $_
 
   (
-    flock -n 9 || exit 1 # already in progress
+    flock -x -n 9 || exit 1 # already in progress
     display_system_status > $STATUS_FILE 2>&1
-  ) 9< $STATUS_FILE
+  ) 9> $STATUS_FILE
 }
