@@ -4,22 +4,22 @@ parse_args() {
   for p in "$@"; do
     case $p in
       --status-file=*)
-        export STATUS_FILE="${p#*=}"
+        export STATUS_FILE=$(readlink -f "${p#*=}")
         ;;
       --check-timeout=*)
         export CHECK_TIMEOUT="${p#*=}"
         ;;
       --tasks-dir=*)
-        export TASKS_DIR="${p#*=}"
+        export TASKS_DIR=$(readlink -f "${p#*=}")
         ;;
       --work-dir=*)
-        export WORK_DIR="${p#*=}"
+        export WORK_DIR=$(readlink -f "${p#*=}")
         ;;
       --pid-file=*)
-        export PID_FILE="${p#*=}"
+        export PID_FILE=$(readlink -f "${p#*=}")
         ;;
       --log-file=*)
-        export LOG_FILE="${p#*=}"
+        export LOG_FILE=$(readlink -f "${p#*=}")
         ;;
       --start)
         export ARG_START=1

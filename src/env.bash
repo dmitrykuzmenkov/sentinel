@@ -1,8 +1,8 @@
 #!/bin/bash
-export VERSION='0.1.0-pre'
+export VERSION='0.1.0'
 export CHECK_TIMEOUT=3
-export TASKS_DIR='./tasks'
-export WORK_DIR='./proc'
+export TASKS_DIR=$(readlink -f './tasks')
+export WORK_DIR=$(readlink -f './proc')
 export PID_FILE=$WORK_DIR'/sentinel.pid'
 export LOG_FILE=$WORK_DIR'/sentinel.log'
 

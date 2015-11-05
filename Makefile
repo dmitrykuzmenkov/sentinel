@@ -9,6 +9,7 @@ check:
 	which grep
 	which tail && which head # read file tools
 	which sudo # sudo to run task under custom user
+	which readlink # to read realpath
 
 build:
 	mkdir $(BUILD_DIR)
