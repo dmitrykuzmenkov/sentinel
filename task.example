@@ -1,6 +1,5 @@
 # This is example for task configuration. The file is flat bash script with vars assigments
-pid_file=$WORK_DIR'/example.pid'
-start='while true; do sleep 1; done & echo $! > '$pid_file
+start='sleep infinity'
 stop='kill `cat '$pid_file'`'
 user='root'
 group='root'
