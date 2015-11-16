@@ -33,8 +33,6 @@ spawn_checkers() {
       flock -x -n 9 || exit 1 # already in progress
 
       # Set defaults variables for task
-      user=$(id -un)
-      group=$(id -gn)
       timeout=0
       check='exit 0'
       memory=0
@@ -42,6 +40,14 @@ spawn_checkers() {
       # Load task config
       pid_file="$WORK_DIR/$p_name.pid"
       source "$p_file"
+
+      if [[ -z "$user" ]]; then
+        user=$(id -un)
+      fi
+
+      if [[ -z "$group" ]]; then
+        group=$(id -gn "$user")
+      fi
 
       if [[ -z "$stop" ]]; then
         stop='kill -TERM '$(cat $pid_file)
