@@ -65,8 +65,8 @@ display_task_status() {
   pid_file="$WORK_DIR/$task.pid"
   source $TASKS_DIR/$task
   # Check vars
-  if [[ -z "$start" || -z "$stop" ]]; then
-    echo $(color "Wrong config. It must define at least these vars: start, stop" 'red')
+  if [[ -z "$start" ]]; then
+    echo $(color "Wrong config. It must define at least these vars: start" 'red')
     return
   fi
 

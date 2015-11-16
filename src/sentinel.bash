@@ -43,6 +43,10 @@ spawn_checkers() {
       pid_file="$WORK_DIR/$p_name.pid"
       source "$p_file"
 
+      if [[ -z "$stop" ]]; then
+        stop='kill -TERM '$(cat $pid_file)
+      fi
+
       running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'pending')
 

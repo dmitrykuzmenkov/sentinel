@@ -65,17 +65,16 @@ group='root'
 
 You can use $pid_file variable inside config that contains absolute pid file path for your process.
 
-You can omit user, group, for example:
+You can omit user, group, stop for example:
 
 ```bash
 start='while true; do sleep 1; done'
-stop='kill `cat '$pid_file'`'
 ```
 
 In that case pid_file will be $WORK_DIR/example.pid, user and group - root. You can use more options:
 
 - *start*: valid single bash command without any split (;) and multicall (&&, ||) to start daemon (no foreground)
-- *stop*: valid bash command to stop running daemon
+- *stop*: valid bash command to stop running daemon, if not specified using kill with TERM for running pid
 - *user*: optional param to run as that user
 - *group*: optional param to run task under special group
 - *timeout*: timeout in seconds before process will be started
