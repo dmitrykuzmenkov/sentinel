@@ -66,7 +66,9 @@ spawn_checkers() {
         fi
 
         # Evaluate custom check using bash
-        echo "$check" | bash
+        sudo -u $user -g $group -s -- <<EOF
+          $check
+EOF
         [[ "$?" != "0" ]] && status='stopping'
       fi
 
