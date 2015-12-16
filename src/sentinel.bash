@@ -41,6 +41,8 @@ spawn_checkers() {
       pid_file="$WORK_DIR/$p_name.pid"
       source "$p_file"
 
+      pid="$(cat $pid_file)"
+
       if [[ -z "$user" ]]; then
         user=$(id -un)
       fi
@@ -50,17 +52,17 @@ spawn_checkers() {
       fi
 
       if [[ -z "$stop" ]]; then
-        stop='kill -TERM '$(cat $pid_file)
+        stop='kill -TERM '$pid
       fi
 
-      running=$([[ -s $pid_file && -e /proc/$(cat $pid_file) ]] && echo 1 || echo 0)
+      running=$([[ -s $pid_file && -e /proc/$pid ]] && echo 1 || echo 0)
       status=$([[ "$running" == "1" ]] && echo 'up' || echo 'pending')
 
       # Do checks on running process
       if [[ "$running" == "1" ]]; then
         # Check memory use
         if (( $(to_bytes "$memory") > 0 && \
-          $(to_bytes $(get_memory_usage $(cat $pid_file))) > $(to_bytes "$memory") )); then
+          $(to_bytes $(get_memory_usage $pid)) > $(to_bytes "$memory") )); then
 
           status='memory'
         fi
