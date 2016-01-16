@@ -141,6 +141,11 @@ If you shell supports for colors u can colorize it:
 sentinel --status --colorize
 ```
 
+If you want json output just use *--json* flag
+```bash
+sentinel --status --json
+```
+
 ## Control Sentinel
 To control Sentinel you just need to call sentinel command with special files
 

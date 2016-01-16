@@ -8,8 +8,16 @@ test -n "$ARG_HELP" && source ./src/help.bash && exit 0
 test -n "$ARG_VERSION" && echo 'Sentinel version: '$VERSION && exit 0
 
 # Status commands
-test -n "$ARG_STATUS" && load_component "status" && display_task_status "$ARG_STATUS" && exit 0
-test -n "$ARG_STATUS_ALL" && load_component "status" && display_system_status && exit 0
+if [[ -n "$ARG_STATUS" ]]; then
+  load_component "status"${ARG_JSON+"-json"}
+  display_task_status "$ARG_STATUS"
+  exit 0
+fi
+if [[ -n "$ARG_STATUS_ALL" ]]; then
+  load_component "status"${ARG_JSON+"-json"}
+  display_system_status
+  exit 0
+fi
 
 test -n "$ARG_ADD" && $EDITOR $TASKS_DIR/$ARG_ADD && exit 0
 test -n "$ARG_EDIT" && $EDITOR $TASKS_DIR/$ARG_EDIT && exit 0

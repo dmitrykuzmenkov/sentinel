@@ -39,6 +39,9 @@ parse_args() {
       --status=*)
         export ARG_STATUS="${p#*=}"
         ;;
+      --json)
+        export ARG_JSON=1
+        ;;
       --colorize)
         export COLORIZE=1
         ;;
