@@ -25,11 +25,22 @@ display_system_status() {
 
   # Display hostname information
   print_json_key 'host' "$(cat /etc/hostname)"
-  print_json_key 'uptime' "$(( $(get_system_uptime) / 3600 )) hours $(( $(get_system_uptime) % 3600 / 60 )) minutes"
+  print_json_key 'uptime' "$(get_system_uptime)"
   print_json_key 'load_average' "$(get_system_la)"
-  print_json_key 'cpus' "$(get_system_cpu_usage)%us $(get_system_cpu_sys)%sy $(get_system_cpu_nice)%ni $(get_system_cpu_idle)%id $(get_system_cpu_wait)%wa"
-  print_json_key 'memory' "$(( $(get_system_memory_usage) * 100 / $(get_system_total_memory) ))% of $(get_system_total_memory)K (used: $(get_system_memory_usage)K, free: $(get_system_free_memory)K, cached: $(get_system_cached_memory)K)"
-  print_json_key 'swap' "$(( $(get_system_swap_usage) * 100 / $TOTAL_SWAP ))% of ${TOTAL_SWAP}K (used: $(get_system_swap_usage)K, free: $(get_system_free_swap)K)"
+  print_json_key 'cpu_usage' "$(get_system_cpu_usage)"
+  print_json_key 'cpu_system' "$(get_system_cpu_sys)"
+  print_json_key 'cpu_nice' "$(get_system_cpu_nice)"
+  print_json_key 'cpu_idle' "$(get_system_cpu_idle)"
+  print_json_key 'cpu_wait' "$(get_system_cpu_wait)"
+  print_json_key 'memory_usage' "$(get_system_memory_usage)K"
+  print_json_key 'memory_usage_percent' "$(( $(get_system_memory_usage) * 100 / $(get_system_total_memory) ))"
+  print_json_key 'memory_total' "$(get_system_total_memory)K"
+  print_json_key 'memory_free' "$(get_system_free_memory)K"
+  print_json_key 'memory_cached' "$(get_system_cached_memory)K"
+  print_json_key 'swap_usage' "$(get_system_swap_usage)K"
+  print_json_key 'swap_usage_percent' "$(( $(get_system_swap_usage) * 100 / $TOTAL_SWAP ))"
+  print_json_key 'swap_total' "${TOTAL_SWAP}K"
+  print_json_key 'swap_free' "$(get_system_free_swap)K"
 
   task_count=$(ls $TASKS_DIR | wc -l)
   print_json_key 'task_count' "$task_count"
@@ -76,12 +87,19 @@ display_task_status() {
       print_json_key 'status' 'up'
       print_json_key 'pid' "$pid"
 
-      print_json_key 'state' "$(get_state $pid) (threads: $(get_threads_count $pid), ppid: $(get_ppid $pid), uid: $(get_uid $pid), gid: $(get_gid $pid))"
+      print_json_key 'state' "$(get_state $pid)"
+      print_json_key 'threads' "$(get_threads_count $pid)"
+      print_json_key 'ppid' "$(get_ppid $pid)"
+      print_json_key 'uid' "$(get_uid $pid)"
+      print_json_key 'gid' "$(get_gid $pid)"
 
       print_json_key 'cpu' "$(get_cpu_usage $pid)%"
-      print_json_key 'memory' "$(get_memory_usage $pid)K as of $(( $(get_memory_usage $pid) * 100 / $(get_system_total_memory) ))% with peak of $(get_memory_peak_usage $pid)K"
+      print_json_key 'memory_usage' "$(get_memory_usage $pid)K"
+      print_json_key 'memory_usage_percent' "$(( $(get_memory_usage $pid) * 100 / $(get_system_total_memory) ))"
+      print_json_key 'memory_peak' "$(get_memory_peak_usage $pid)K"
 
-      print_json_key 'swap' "$(get_swap_usage $pid)K as of $(( $(get_swap_usage $pid) / $TOTAL_SWAP))%"
+      print_json_key 'swap_usage' "$(get_swap_usage $pid)K"
+      print_json_key 'swap_usage_percent' "$(( $(get_swap_usage $pid) / $TOTAL_SWAP))"
 
       uptime_ts=$(( $(date +%s) - $(stat --printf='%Y' $pid_file) ))
       print_json_key 'uptime' "$uptime_ts" 1

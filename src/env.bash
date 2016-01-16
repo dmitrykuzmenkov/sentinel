@@ -1,5 +1,5 @@
 #!/bin/bash
-export VERSION='0.3.0'
+export VERSION='0.3.1'
 export CHECK_TIMEOUT=3
 export TASKS_DIR=$(readlink -f './tasks')
 export WORK_DIR=$(readlink -f './proc')
