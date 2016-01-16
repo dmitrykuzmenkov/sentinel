@@ -145,6 +145,8 @@ If you want json output just use *--json* flag
 ```bash
 sentinel --status --json
 ```
+* Notice that every storage usage displays in KB not just bytes.
+* Notice that every cpu usage displays in percents.
 
 ## Control Sentinel
 To control Sentinel you just need to call sentinel command with special files
